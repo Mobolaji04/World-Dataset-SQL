@@ -27,15 +27,15 @@ The dataset includes **1,000+ cities across multiple countries**, making it idea
 ## Retrieve Cities from the UK
 
 ```sql
-SELECT city_name, population
-FROM cities
-WHERE country_code = 'GBR';
+SELECT Name, Population
+FROM city
+WHERE CountryCode = 'GBR';
 ```
 
 ## Cities with Population Above 1 Million
 
 ```sql
-SELECT city_name,
+SELECT Name,
        country_code,
        population
 FROM cities
