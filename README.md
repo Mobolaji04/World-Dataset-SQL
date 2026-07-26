@@ -60,29 +60,29 @@ ORDER BY total_population DESC;
 ## Average Population per Country
 
 ```sql
-SELECT country_code,
+SELECT CountryCode,
        AVG(population) AS avg_population
-FROM cities
-GROUP BY country_code
+FROM city
+GROUP BY CountryCode
 ORDER BY avg_population DESC;
 ```
 
 ## Largest City by Country
 
 ```sql
-SELECT country_code,
+SELECT CountryCode,
        MAX(population) AS largest_city
-FROM cities
-GROUP BY country_code;
+FROM city
+GROUP BY CountryCode;
 ```
 
 ## Smallest City by Country
 
 ```sql
-SELECT country_code,
-       MIN(population) AS smallest_city
-FROM cities
-GROUP BY country_code;
+SELECT CountryCode,
+MIN(population) AS smallest_city
+FROM city
+GROUP BY CountryCode;
 ```
 
 ---
@@ -92,10 +92,10 @@ GROUP BY country_code;
 ## Number of Cities per Country
 
 ```sql
-SELECT country_code,
+SELECT CountryCode,
        COUNT(*) AS city_count
-FROM cities
-GROUP BY country_code
+FROM city
+GROUP BY CountryCode
 ORDER BY city_count DESC;
 ```
 
@@ -104,7 +104,7 @@ ORDER BY city_count DESC;
 ```sql
 SELECT district,
        SUM(population) AS district_population
-FROM cities
+FROM city
 GROUP BY district
 ORDER BY district_population DESC;
 ```
@@ -117,12 +117,12 @@ ORDER BY district_population DESC;
 
 ```sql
 SELECT city_name,
-       country_code,
+       CountryCode,
        population,
        RANK() OVER(
            ORDER BY population DESC
        ) AS city_rank
-FROM cities
+FROM city
 LIMIT 10;
 ```
 
@@ -131,14 +131,14 @@ LIMIT 10;
 ```sql
 SELECT *
 FROM (
-    SELECT city_name,
-           country_code,
+    SELECT Name,
+           CountryCode,
            population,
            ROW_NUMBER() OVER(
-               PARTITION BY country_code
+               PARTITION BY CountryCode
                ORDER BY population DESC
            ) AS rn
-    FROM cities
+    FROM city
 ) ranked
 WHERE rn = 1;
 ```
@@ -150,26 +150,26 @@ WHERE rn = 1;
 ## Running Population Total
 
 ```sql
-SELECT country_code,
-       city_name,
+SELECT CountryCode,
+       Name,
        population,
        SUM(population) OVER(
-           PARTITION BY country_code
+           PARTITION BY CountryCode
            ORDER BY population
        ) AS running_total
-FROM cities;
+FROM city;
 ```
 
 ## Compare Cities to Country Average
 
 ```sql
-SELECT city_name,
-       country_code,
+SELECT Name,
+       CountryCode,
        population,
        AVG(population) OVER(
-           PARTITION BY country_code
+           PARTITION BY CountryCode
        ) AS country_avg
-FROM cities;
+FROM city;
 ```
 
 ---
@@ -179,24 +179,24 @@ FROM cities;
 ## Convert City Names to Uppercase
 
 ```sql
-SELECT UPPER(city_name) AS city_name
-FROM cities;
+SELECT UPPER(Name) AS Name
+FROM city;
 ```
 
 ## Cities Beginning with "San"
 
 ```sql
-SELECT city_name
-FROM cities
-WHERE city_name LIKE 'San%';
+SELECT Name
+FROM city
+WHERE Name LIKE 'San%';
 ```
 
 ## Length of City Names
 
 ```sql
-SELECT city_name,
-       LENGTH(city_name) AS character_count
-FROM cities;
+SELECT Name,
+       LENGTH(Name) AS character_count
+FROM city;
 ```
 
 ---
@@ -206,7 +206,7 @@ FROM cities;
 ## Categorize Cities by Population
 
 ```sql
-SELECT city_name,
+SELECT Name,
        population,
        CASE
            WHEN population >= 5000000 THEN 'Mega City'
@@ -214,7 +214,7 @@ SELECT city_name,
            WHEN population >= 500000 THEN 'Medium City'
            ELSE 'Small City'
        END AS city_category
-FROM cities;
+FROM city;
 ```
 
 ---
@@ -225,14 +225,14 @@ FROM cities;
 
 ```sql
 WITH ranked_cities AS (
-    SELECT city_name,
-           country_code,
+    SELECT Name,
+           CountryCode,
            population,
            ROW_NUMBER() OVER(
-               PARTITION BY country_code
+               PARTITION BY CountryCode
                ORDER BY population DESC
            ) AS ranking
-    FROM cities
+    FROM city
 )
 SELECT *
 FROM ranked_cities
@@ -246,15 +246,15 @@ WHERE ranking <= 5;
 ## Country Share of Population
 
 ```sql
-SELECT country_code,
+SELECT CountryCode,
        SUM(population) AS country_population,
        ROUND(
            SUM(population) * 100.0 /
            SUM(SUM(population)) OVER (),
            2
        ) AS population_percentage
-FROM cities
-GROUP BY country_code
+FROM city
+GROUP BY CountryCode
 ORDER BY population_percentage DESC;
 ```
 
@@ -262,17 +262,17 @@ ORDER BY population_percentage DESC;
 
 ```sql
 WITH country_avg AS (
-    SELECT country_code,
+    SELECT CountryCode,
            AVG(population) AS avg_population
-    FROM cities
-    GROUP BY country_code
+    FROM city
+    GROUP BY CountryCode
 )
-SELECT c.city_name,
-       c.country_code,
+SELECT c.Name,
+       c.CountryCode,
        c.population
-FROM cities c
+FROM city c
 JOIN country_avg a
-ON c.country_code = a.country_code
+ON c.CountryCode = a.CountryCode
 WHERE c.population > a.avg_population;
 ```
 
@@ -284,7 +284,7 @@ WHERE c.population > a.avg_population;
 
 ```sql
 SELECT *
-FROM cities
+FROM city
 WHERE district IS NULL
    OR district = '–';
 ```
@@ -292,10 +292,10 @@ WHERE district IS NULL
 ## Duplicate City Names
 
 ```sql
-SELECT city_name,
+SELECT Name,
        COUNT(*) AS occurrences
-FROM cities
-GROUP BY city_name
+FROM city
+GROUP BY Name
 HAVING COUNT(*) > 1;
 ```
 
@@ -306,20 +306,20 @@ HAVING COUNT(*) > 1;
 ## Which Countries Have the Largest Urban Populations?
 
 ```sql
-SELECT country_code,
+SELECT CountryCode,
        SUM(population) AS urban_population
-FROM cities
-GROUP BY country_code
+FROM city
+GROUP BY CountryCode
 ORDER BY urban_population DESC;
 ```
 
 ## Top 20 Most Populated Cities
 
 ```sql
-SELECT city_name,
-       country_code,
+SELECT name,
+       countryCode,
        population
-FROM cities
+FROM city
 ORDER BY population DESC
 LIMIT 20;
 ```
@@ -329,7 +329,7 @@ LIMIT 20;
 ```sql
 SELECT district,
        SUM(population) AS total_population
-FROM cities
+FROM city
 GROUP BY district
 ORDER BY total_population DESC
 LIMIT 1;
@@ -339,25 +339,25 @@ LIMIT 1;
 
 ```sql
 WITH country_totals AS (
-    SELECT country_code,
+    SELECT CountryCode,
            SUM(population) AS total_population
-    FROM cities
-    GROUP BY country_code
+    FROM city
+    GROUP BY CountryCode
 ),
 largest_city AS (
-    SELECT country_code,
+    SELECT CountryCode,
            MAX(population) AS max_population
-    FROM cities
-    GROUP BY country_code
+    FROM city
+    GROUP BY CountryCode
 )
-SELECT ct.country_code,
+SELECT ct.CountryCode,
        ROUND(
            lc.max_population * 100.0 / ct.total_population,
            2
        ) AS percentage_in_largest_city
 FROM country_totals ct
 JOIN largest_city lc
-ON ct.country_code = lc.country_code;
+ON ct.CountryCode = lc.CountryCode;
 ```
 
 ---
