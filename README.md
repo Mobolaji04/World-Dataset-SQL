@@ -361,6 +361,11 @@ ON ct.CountryCode = lc.CountryCode;
 ```
 
 ---
+# ⭐ Star Schema Design
+To support analytical reporting and business intelligence use cases, the cities dataset can be modeled using a dimensional data warehouse approach.
+
+## Star Schema
+<img width="1275" height="789" alt="Screenshot 2026-07-27 003332" src="https://github.com/user-attachments/assets/5a794456-5473-47bc-9710-9b6836138be6" />
 
 # 🛠 SQL Skills Demonstrated
 
