@@ -50,10 +50,10 @@ WHERE population > 1000000;
 ## Total Population per Country
 
 ```sql
-SELECT country_code,
+SELECT CountryCode,
        SUM(population) AS total_population
-FROM cities
-GROUP BY country_code
+FROM city
+GROUP BY CountryCode
 ORDER BY total_population DESC;
 ```
 
