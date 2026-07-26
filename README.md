@@ -22,34 +22,6 @@ The dataset includes **1,000+ cities across multiple countries**, making it idea
 
 ---
 
-## 📊 Dataset Schema
-
-```sql
-CREATE TABLE cities (
-    id INT PRIMARY KEY,
-    city_name VARCHAR(100),
-    country_code CHAR(3),
-    district VARCHAR(100),
-    population INT
-);
-```
-
-### Sample Data
-
-```sql
-INSERT INTO cities VALUES
-(1,'Kabul','AFG','Kabol',1780000),
-(5,'Amsterdam','NLD','Noord-Holland',731200),
-(69,'Buenos Aires','ARG','Distrito Federal',2982146),
-(130,'Sydney','AUS','New South Wales',3276207),
-(206,'São Paulo','BRA','São Paulo',9968485),
-(456,'London','GBR','England',7285000),
-(608,'Cairo','EGY','Kairo',6789479),
-(939,'Jakarta','IDN','Jakarta Raya',9604900);
-```
-
----
-
 # 🔍 Basic Querying
 
 ## Retrieve Cities from the UK
