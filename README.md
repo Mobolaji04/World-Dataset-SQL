@@ -33,6 +33,7 @@ WHERE CountryCode = 'GBR';
 ```
 
 ## Cities with Population Above 1 Million
+<img width="651" height="573" alt="Screenshot 2026-07-27 000300" src="https://github.com/user-attachments/assets/a5d05d91-0b5e-4633-b5cb-68dfec473873" />
 
 ```sql
 SELECT Name,
